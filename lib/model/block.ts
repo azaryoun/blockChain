@@ -1,5 +1,5 @@
 import { SHA256 } from 'crypto-js';
-
+import * as async from 'async'
 export class Block {
 
     public index: number = 0;
@@ -25,10 +25,14 @@ export class Block {
 
     public mineBlock(difficulty: number) {
 
-        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
-            this.nonce++;
-            this.hash = this.calculateHash();
-        }
+            while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
+
+                this.nonce++;
+                this.hash = this.calculateHash();
+
+            }
+      
+
 
     }
 }

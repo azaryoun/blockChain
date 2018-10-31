@@ -2,6 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { BlockChain } from "./model/block-chain";
+import { Block } from "./model/block";
 
 
 class App {
@@ -12,7 +13,7 @@ class App {
     this.app = express();
     this.config();
     this.routes();
-    this.blockChain = new BlockChain();
+    this.blockChain = new BlockChain(5);
   }
 
   public app: express.Application;
@@ -37,11 +38,28 @@ class App {
       res.status(200).send({
         message: 'The Block Chain (BC) is ' + strBCStatus,
       })
+
     });
     router.post('/insertBlock', (req: Request, res: Response) => {
-      const data = req.body;
-      // query a database and save data
-      res.status(200).send(data);
+      const data = req.body.data;
+      const oBlock = new Block(data);
+      this.blockChain.addBlock(oBlock);
+      res.status(200).send({ message: `the new block is added with index ${oBlock.index} successfully` });
+
+
+
+
+      // const stat = util.promisify(this.blockChain.addBlock);
+      // // const startAsync = async callback => {
+      //   await  this.blockChain.addBlock(oBlock);
+      //   // callback('Hello');
+      //   // await wait(1000);
+      //   // callback('And Welcome');
+      //   // await wait(1000);
+      //   // callback('To Async Await Using TypeScript');
+      // };
+
+
     });
 
     router.use('/', (req: Request, res: Response) => {

@@ -7,8 +7,12 @@ export class BlockChain {
 
     constructor(public difficulty = 3) {
         const oBlock = new Block("Genesis block");
+
         oBlock.mineBlock(this.difficulty);
-        this.blocks.push(oBlock);
+        this.blocks.push(oBlock)
+
+
+
     }
 
 
@@ -17,10 +21,15 @@ export class BlockChain {
     }
 
     public addBlock(newBlock: Block) {
+
         newBlock.index = this.blocks.length;
         newBlock.previousHash = this._latestBlock().hash;
+
         newBlock.mineBlock(this.difficulty);
         this.blocks.push(newBlock);
+
+
+
     }
 
     public isBlockChainValid() {
